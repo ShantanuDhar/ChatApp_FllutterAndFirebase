@@ -1,3 +1,4 @@
+import 'package:chatapp_firebase/helper/helper_function.dart';
 import 'package:chatapp_firebase/service/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,6 +20,17 @@ try{
       }
 } on FirebaseAuthException catch(e){
 return e.message;
+}
+}
+Future signout() async{
+try{
+await HelperFunction.setUserLoggedInStatus(false);
+await HelperFunction.setUserEmailSF("");
+await HelperFunction.setUserNameSF("");
+await firebaseAuth.signOut();
+
+} catch(e){
+  return null;
 }
 }
 }

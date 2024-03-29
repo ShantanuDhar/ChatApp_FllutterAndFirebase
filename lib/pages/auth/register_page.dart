@@ -1,6 +1,6 @@
 import 'package:chatapp_firebase/helper/helper_function.dart';
 import 'package:chatapp_firebase/pages/auth/login_page.dart';
-import 'package:chatapp_firebase/pages/auth/home_page.dart';
+import 'package:chatapp_firebase/pages/home_page.dart';
 import 'package:chatapp_firebase/service/auth_service.dart';
 import 'package:chatapp_firebase/widgets/widgets.dart';
 import 'package:flutter/gestures.dart';
@@ -171,7 +171,10 @@ class _RegisterPageState extends State<RegisterPage> {
           .registerUser(fullName, email, password)
           .then((value) async {
         if (value == true) {
-          // saving the shared preference state
+          HelperFunction.setUserLoggedInStatus(value);
+          HelperFunction.setUserNameSF( fullName);
+          HelperFunction.setUserEmailSF( email);
+          nextScreen(context, const HomePage());
           
         } else {
           showSnackbar(context, Colors.red, value);
