@@ -33,4 +33,20 @@ await firebaseAuth.signOut();
   return null;
 }
 }
+Future loginUser( String email, String password) async {
+try{
+ UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+ User user = userCredential.user!;
+
+
+ if (user != null) {
+        // call our database service to update the user data.
+       
+        return true;
+      }
+} on FirebaseAuthException catch(e){
+return e.message;
+}
+}
+
 }

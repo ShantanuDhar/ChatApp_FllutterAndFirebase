@@ -1,6 +1,12 @@
 
+import 'package:chatapp_firebase/helper/helper_function.dart';
 import 'package:chatapp_firebase/pages/auth/register_page.dart';
+import 'package:chatapp_firebase/pages/home_page.dart';
+import 'package:chatapp_firebase/service/auth_service.dart';
+import 'package:chatapp_firebase/service/database_service.dart';
 import 'package:chatapp_firebase/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +22,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  AuthService authService = AuthService();
+  bool _isLoading = false;
  
   final _formKey = GlobalKey<FormState>();
   String email=" ";
@@ -23,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body:SingleChildScrollView(
+      body:_isLoading? Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal:20, vertical:80),
           child: Form(
@@ -144,5 +152,29 @@ class _LoginPageState extends State<LoginPage> {
     );
 
   }
-  login(){}
+  login() async{
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+      await authService
+          .loginUser( email, pass)
+          .then((value) async {
+        if (value == true) {
+          QuerySnapshot snapshot = await DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid).getUserData(email);
+          HelperFunction.setUserLoggedInStatus(value);
+          HelperFunction.setUserNameSF( snapshot.docs[0]['fullName']);
+          HelperFunction.setUserEmailSF( email);
+          nextScreen(context, const HomePage());
+
+          
+        } else {
+          showSnackbar(context, Colors.red, value);
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
+    }
+  }
 }
