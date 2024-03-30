@@ -94,9 +94,12 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap:(){
-              nextScreenReplace(context, ProfilePage());
+              nextScreenReplace(context, ProfilePage(
+                email: email,
+                userName: name,
+              ));
             },
-            selectedColor: Theme.of(context).primaryColor,
+            // selectedColor: Theme.of(context).primaryColor,
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             leading: const Icon(Icons.person),
             title: const Text("Profile",style:TextStyle(color: Colors.black)),
