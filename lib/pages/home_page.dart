@@ -3,7 +3,10 @@ import 'package:chatapp_firebase/pages/auth/login_page.dart';
 import 'package:chatapp_firebase/pages/profile_page.dart';
 import 'package:chatapp_firebase/pages/search_page.dart';
 import 'package:chatapp_firebase/service/auth_service.dart';
+import 'package:chatapp_firebase/service/database_service.dart';
 import 'package:chatapp_firebase/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   String email = "";
   String name = "";
   AuthService auth = AuthService();
+  Stream? groups;
   @override
   void initState(){
     super.initState();
@@ -32,6 +36,11 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         name = value!;
       });
+    });
+    await DatabaseService(uid :FirebaseAuth.instance.currentUser!.uid).getUserGroups().then((snapshot){
+      setState(){
+        groups = snapshot;
+      };
     });
   }
   
@@ -161,6 +170,7 @@ class _HomePageState extends State<HomePage> {
           popUpDialog(context);
         },
         shape: CircleBorder(
+          
         ),
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
