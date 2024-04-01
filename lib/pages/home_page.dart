@@ -155,7 +155,31 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+       body: groupList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          popUpDialog(context);
+        },
+        shape: CircleBorder(
+        ),
+        elevation: 0,
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.white,
+        ),
+        
+        ),
+        
     );
+    
+  }
+   popUpDialog(BuildContext context) {
+   }
+  groupList(){
+
   }
 }
+
   
