@@ -38,12 +38,12 @@ class _HomePageState extends State<HomePage> {
       });
     });
     await DatabaseService(uid :FirebaseAuth.instance.currentUser!.uid).getUserGroups().then((snapshot){
-      setState(){
+      setState(() {
         groups = snapshot;
-      };
+      });
     });
   }
-  
+
   
   @override
   Widget build(BuildContext context) {
