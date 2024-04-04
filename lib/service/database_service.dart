@@ -27,5 +27,16 @@ class DatabaseService {
   Future getUserGroups() async{
    return userCollection.doc(uid).snapshots();
   }
+  Future createGroup(String userName,String id,String groupName) async{
+    return await groupCollection.doc(id).set({
+      "groupName": groupName,
+      "groupIcon": "",
+      "admin":"${id}_$userName",
+      "members": [],
+      "groupId":"" ,
+      "recentMessages":"",
+      "recentMessagesSender":"",
+    });
+  }
 
 }
