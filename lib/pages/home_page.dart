@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   String name = "";
   AuthService auth = AuthService();
   Stream? groups;
+  bool _isLoading = false;
+  String groupName = "";
   @override
   void initState(){
     super.initState();
@@ -186,6 +188,75 @@ class _HomePageState extends State<HomePage> {
     
   }
    popUpDialog(BuildContext context) {
+    
+    showDialog(context: context,
+    barrierDismissible: false,
+     builder: (context){
+      return AlertDialog(
+        title: const Text("Create group",
+        textAlign: TextAlign.left,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _isLoading == true ?  
+             Center(
+              child: CircularProgressIndicator(color: Theme.of(context).primaryColor,)):
+              TextField(
+                onChanged: (value) => {
+                  setState(() {
+                    groupName = value;
+                  })
+                },
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              )
+          ],
+        ),
+        actions: [
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).pop();
+          }
+          , child: Text("Cancel", style: TextStyle(color: Colors.white)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          ),
+          ),
+          ElevatedButton(onPressed: (){
+            Navigator.of(context).pop();
+          }
+          , child: Text("Create", style: TextStyle(color: Colors.white)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            )
+          ),
+          ),
+
+
+        ],
+        
+
+
+      );
+    });
    }
     groupList() {
     return StreamBuilder(
