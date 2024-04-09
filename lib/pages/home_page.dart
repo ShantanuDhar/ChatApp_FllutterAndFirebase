@@ -192,6 +192,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(context: context,
     barrierDismissible: false,
      builder: (context){
+      return StatefulBuilder(builder: ((context,setState){
       return AlertDialog(
         title: const Text("Create group",
         textAlign: TextAlign.left,
@@ -268,7 +269,7 @@ class _HomePageState extends State<HomePage> {
         
 
 
-      );
+      );}));
     });
    }
     groupList() {
