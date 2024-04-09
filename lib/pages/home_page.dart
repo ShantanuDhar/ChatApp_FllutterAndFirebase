@@ -237,8 +237,21 @@ class _HomePageState extends State<HomePage> {
             )
           ),
           ),
-          ElevatedButton(onPressed: (){
-            Navigator.of(context).pop();
+          ElevatedButton(onPressed: () async{
+            if(groupName!=""){
+              setState(() {
+                _isLoading=true;
+              });
+                DatabaseService(
+                              uid: FirebaseAuth.instance.currentUser!.uid)
+                          .createGroup(name,
+                              FirebaseAuth.instance.currentUser!.uid, groupName)
+                          .whenComplete(() {
+                        _isLoading = false;
+                      });
+                      Navigator.of(context).pop();
+                      showSnackbar(context, Colors.green, "Group Created");
+            }
           }
           , child: Text("Create", style: TextStyle(color: Colors.white)),
           style: ElevatedButton.styleFrom(

@@ -37,11 +37,16 @@ class DatabaseService {
       "recentMessage": "",
       "recentMessageSender": "",
     });
-
+//update members
     await groupDocumentReference.update({
-      "members":FieldValue.arrayUnion(["${uid}_${userName}"]),
+      "members":FieldValue.arrayUnion(["${uid}_$userName"]),
       "groupId": groupDocumentReference.id
 
+    });
+
+    DocumentReference userDocumentReference=  userCollection.doc(uid);
+    return await userDocumentReference.update({
+      "groups": FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
     
   }
