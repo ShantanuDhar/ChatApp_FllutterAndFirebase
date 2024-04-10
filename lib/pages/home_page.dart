@@ -4,6 +4,7 @@ import 'package:chatapp_firebase/pages/profile_page.dart';
 import 'package:chatapp_firebase/pages/search_page.dart';
 import 'package:chatapp_firebase/service/auth_service.dart';
 import 'package:chatapp_firebase/service/database_service.dart';
+import 'package:chatapp_firebase/widgets/group_tile.dart';
 import 'package:chatapp_firebase/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +28,14 @@ class _HomePageState extends State<HomePage> {
   void initState(){
     super.initState();
     getUserDetails();
+
+
+  }
+  String getId(String res){
+    return res.substring(0,res.indexOf("_"));
+  }
+  String getName(String res){
+    return res.substring(res.indexOf("_")+1);
   }
   void getUserDetails() async{
     await HelperFunction.getUserEmail().then((value){
@@ -280,8 +289,14 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-             return Text("hello");
-                
+             return ListView.builder(
+              itemCount: snapshot.data["groups"].length,
+              
+              itemBuilder: (context, index){
+                return GroupTile(groupId: getId(snapshot.data['groups'][index]), groupName: getName(snapshot.data['groups'][index]), userName: snapshot.data['fullName']);
+
+              }
+             );
             } else {
               return noGroupwidget();
             }
