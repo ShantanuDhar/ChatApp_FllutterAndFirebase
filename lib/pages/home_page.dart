@@ -289,11 +289,13 @@ class _HomePageState extends State<HomePage> {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
+              
              return ListView.builder(
               itemCount: snapshot.data["groups"].length,
               
               itemBuilder: (context, index){
-                return GroupTile(groupId: getId(snapshot.data['groups'][index]), groupName: getName(snapshot.data['groups'][index]), userName: snapshot.data['fullName']);
+                int reverseIndex= snapshot.data['groups'].length - index -1;
+                return GroupTile(groupId: getId(snapshot.data['groups'][reverseIndex]), groupName: getName(snapshot.data['groups'][reverseIndex]), userName: snapshot.data['fullName']);
 
               }
              );
