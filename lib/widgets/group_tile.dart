@@ -21,7 +21,7 @@ class _GroupTileState extends State<GroupTile> {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(widget.groupName),
-      subtitle: Text(widget.groupId),
+      // subtitle: Text(widget.groupId),
 
     );
   }
