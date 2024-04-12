@@ -30,7 +30,11 @@ class _ChatPageState extends State<ChatPage> {
           ),
           IconButton(
             onPressed: (){
-              nextScreen(context, GroupInfo());
+              nextScreen(context, GroupInfo(
+                groupId: widget.groupId,
+                groupName: widget.groupName,
+                adminName: admin,
+              ));
             },
             icon: const Icon(Icons.more_vert, size: 33,),
           )
