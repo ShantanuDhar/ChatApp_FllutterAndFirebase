@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GroupInfo extends StatefulWidget {
-    final String userName;
+    final String adminName;
   final String groupName;
   final String groupId;
-  const GroupInfo({super.key, required this.groupId, required this.groupName, required this.userName});
+  const GroupInfo({super.key, required this.groupId, required this.groupName, required this.adminName});
 
   @override
   State<GroupInfo> createState() => _GroupInfoState();
@@ -13,6 +13,10 @@ class GroupInfo extends StatefulWidget {
 class _GroupInfoState extends State<GroupInfo> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return  Scaffold(
+      body: Center(
+        child: Text(widget.adminName),
+      ),
+    );
   }
 }
