@@ -166,8 +166,6 @@ class _LoginPageState extends State<LoginPage> {
           HelperFunction.setUserNameSF( snapshot.docs[0]['fullName']);
           HelperFunction.setUserEmailSF( email);
           nextScreen(context, const HomePage());
-
-          
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

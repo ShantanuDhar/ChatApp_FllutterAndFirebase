@@ -14,6 +14,7 @@ try{
 
 
  if (user != null) {
+  
         // call our database service to update the user data.
         await DatabaseService(uid: user.uid).savingUserData(fullName, email);
         return true;
