@@ -34,7 +34,7 @@ class DatabaseService {
       "admin": "${id}_$userName",
       "members": [],
       "groupId": "",
-      // "recentMessage": "",
+      "recentMessage": "",
       "recentMessageSender": "",
     });
 //update members
