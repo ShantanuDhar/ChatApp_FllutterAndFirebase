@@ -17,7 +17,7 @@ class DatabaseService {
       "email": email,
       "groups": [],
       "profilePic": "",
-      // "uid": uid,
+      "uid": uid,
     });
   }
   Future getUserData(String email) async{
