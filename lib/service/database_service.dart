@@ -81,4 +81,32 @@ DocumentReference dr = userCollection.doc(uid);
     }
 }
 
+Future toggleGroupJoin(String groupId, String userName,String groupName) async{
+  DocumentReference ur= userCollection.doc(uid);
+  DocumentReference gr= groupCollection.doc(uid);
+
+  DocumentSnapshot userSnapshot = await ur.get();
+  DocumentSnapshot groupSnapshot = await gr.get();
+  List<dynamic> groups = await userSnapshot['groups'];
+  
+  if(groups.contains("${groupId}_${groupName}")){
+    await ur.update({
+      "groups":FieldValue.arrayRemove(["${groupId}_${groupName}"]),
+    });
+    await gr.update({
+      "members":FieldValue.arrayRemove(["${uid}_$userName"]),
+    });
+  
+  }
+  else{
+    await ur.update({
+      "groups":FieldValue.arrayUnion(["${groupId}_${groupName}"]),
+    });
+    await gr.update({
+      "members":FieldValue.arrayUnion(["${uid}_$userName"]),
+    });
+  }
+
+}
+
 }
