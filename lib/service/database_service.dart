@@ -67,6 +67,7 @@ class DatabaseService {
     return groupCollection.doc(groupId).snapshots();
 
   }
+  
 
 
 }
