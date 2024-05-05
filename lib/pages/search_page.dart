@@ -71,13 +71,21 @@ appBar: AppBar(
                         hintText: "Search groups....",
                         hintStyle:
                             TextStyle(color: Colors.white, fontSize: 16)),
-                  
-                
-
-
-                  ))
+ )),
+Container(
+   width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(40)),
+                    child: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+)
                 ],
                )
+
           )
         ],
       ),
