@@ -1,5 +1,7 @@
 import 'package:chatapp_firebase/helper/helper_function.dart';
+import 'package:chatapp_firebase/pages/chat_page.dart';
 import 'package:chatapp_firebase/service/database_service.dart';
+import 'package:chatapp_firebase/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -142,11 +144,13 @@ setState(() {
       });
     });
   }
-  Widget groupTile(String username, String groupId, String groupName,String admin){
+  Widget groupTile(
+      String userName, String groupId, String groupName, String admin) {
+    // function to check whether user already exists in group
     joinedOrNot(userName, groupId, groupName, admin);
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-leading: CircleAvatar(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      leading: CircleAvatar(
         radius: 30,
         backgroundColor: Theme.of(context).primaryColor,
         child: Text(
@@ -158,10 +162,30 @@ leading: CircleAvatar(
           Text(groupName, style: const TextStyle(fontWeight: FontWeight.w600)),
       subtitle: Text("Admin: ${getName(admin)}"),
       trailing: InkWell(
-        onTap: () async{
-
+        onTap: () async {
+          await DatabaseService(uid: user!.uid)
+              .toggleGroupJoin(groupId, userName, groupName);
+          if (isJoined) {
+            setState(() {
+              isJoined = !isJoined;
+            });
+            showSnackbar(context, Colors.green, "Successfully joined he group");
+            Future.delayed(const Duration(seconds: 2), () {
+              nextScreen(
+                  context,
+                  ChatPage(
+                      groupId: groupId,
+                      groupName: groupName,
+                      userName: userName));
+            });
+          } else {
+            setState(() {
+              isJoined = !isJoined;
+              showSnackbar(context, Colors.red, "Left the group $groupName");
+            });
+          }
         },
-         child: isJoined
+        child: isJoined
             ? Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),

@@ -81,32 +81,37 @@ DocumentReference dr = userCollection.doc(uid);
     }
 }
 
-Future toggleGroupJoin(String groupId, String userName,String groupName) async{
-  DocumentReference ur= userCollection.doc(uid);
-  DocumentReference gr= groupCollection.doc(uid);
+  Future toggleGroupJoin(
+      String groupId, String userName, String groupName) async {
+    // doc reference
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    DocumentReference groupDocumentReference = groupCollection.doc(groupId);
 
-  DocumentSnapshot userSnapshot = await ur.get();
-  DocumentSnapshot groupSnapshot = await gr.get();
-  List<dynamic> groups = await userSnapshot['groups'];
+    DocumentSnapshot documentSnapshot = await userDocumentReference.get();
+    List<dynamic> groups = await documentSnapshot['groups'];
+
+    // if user has our groups -> then remove then or also in other part re join
+    if (groups.contains("${groupId}_$groupName")) {
+      await userDocumentReference.update({
+        "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
+      });
+
+       print(userName);
+      
   
-  if(groups.contains("${groupId}_${groupName}")){
-    await ur.update({
-      "groups":FieldValue.arrayRemove(["${groupId}_${groupName}"]),
-    });
-    await gr.update({
-      "members":FieldValue.arrayRemove(["${uid}_$userName"]),
-    });
-  
-  }
-  else{
-    await ur.update({
-      "groups":FieldValue.arrayUnion(["${groupId}_${groupName}"]),
-    });
-    await gr.update({
-      "members":FieldValue.arrayUnion(["${uid}_$userName"]),
-    });
+      await groupDocumentReference.update({
+        "members": FieldValue.arrayRemove(["${uid}_$userName"])
+      });
+    } else {
+      await userDocumentReference.update({
+        "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
+      });
+      print(userName);
+      await groupDocumentReference.update({
+        "members": FieldValue.arrayUnion(["${uid}_$userName"])
+      });
+    }
   }
 
-}
 
 }

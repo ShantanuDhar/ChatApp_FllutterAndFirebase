@@ -75,7 +75,18 @@ class _GroupInfoState extends State<GroupInfo> {
                             ),
                           ),
                           IconButton(
-                           onPressed: (){},
+                            onPressed: () async {
+                              DatabaseService(
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                  .toggleGroupJoin(
+                                      widget.groupId,
+                                      getName(widget.adminName),
+                                      widget.groupName)
+                                  .whenComplete(() {
+                                nextScreenReplace(context, const HomePage());
+                              });
+                            },
                             icon: const Icon(
                               Icons.done,
                               color: Colors.green,
