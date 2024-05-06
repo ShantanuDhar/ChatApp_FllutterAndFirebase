@@ -113,5 +113,13 @@ DocumentReference dr = userCollection.doc(uid);
     }
   }
 
+sendMessage(String groupId, Map<String,dynamic> chatMessage){
+  groupCollection.doc(groupId).collection("messages").add(chatMessage);
 
+  groupCollection.doc(groupId).update({
+      "recentMessage": chatMessage['message'],
+      "recentMessageSender": chatMessage['sender'],
+      "recentMessageTime": chatMessage['time'].toString(),
+    });
+  }
 }
